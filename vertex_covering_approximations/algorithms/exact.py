@@ -1,4 +1,5 @@
 import itertools
+import timeit
 
 import networkx as nx
 
@@ -13,8 +14,10 @@ def exact(dataset_path, visualize=False, plot_path=None):
     :param dataset_path: path to the file containing the graph description (in the form of an edge list)
     :param visualize: visualize the solution or not
     :param plot_path: path to directory in which to save the visualization plots
-    :return: set of vertices constituting the solution for the graph covering problem
+    :return: set of vertices constituting the solution for the graph covering problem and the running time (in seconds)
     """
+
+    start_time = timeit.default_timer()
 
     # edge list and set of unique nodes
     edge_list = []
@@ -45,9 +48,10 @@ def exact(dataset_path, visualize=False, plot_path=None):
 
             # check if nodes form a graph covering
             if check_covering(node_set_nxt, edge_list):
+                running_time = timeit.default_timer() - start_time
                 if visualize:
                     visualization.visualize_covering(node_set_nxt, nx_graph, plot_path, Algorithm.EXACT.value[0], dataset_path)
-                return node_set_nxt
+                return node_set_nxt, running_time
 
 
 def check_covering(node_set, edge_list: list):
