@@ -1,12 +1,12 @@
 from setuptools import setup
 
 setup(
-    name='vertex-covering-approximations',
+    name='vertex-cover-approximations',
     version='0.1.0',
-    packages=['vertex_covering_approximations', 'vertex_covering_approximations.tests', 'vertex_covering_approximations.algorithms', 'vertex_covering_approximations.visualization'],
-    url='https://github.com/jernejvivod/graph-covering-algorithms',
+    packages=['vertex_cover_approximations', 'vertex_cover_approximations.tests', 'vertex_cover_approximations.algorithms', 'vertex_cover_approximations.visualization'],
+    url='https://github.com/jernejvivod/vertex-cover-algorithms',
     license='',
     author='Jernej Vivod',
     author_email='vivod.jernej@gmail.com',
-    description='Implementations of some vertex covering algorithms'
+    description='Implementations of some vertex cover algorithms'
 )

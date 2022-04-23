@@ -3,18 +3,18 @@ import timeit
 
 import networkx as nx
 
-from vertex_covering_approximations import Algorithm
-from vertex_covering_approximations.visualization import visualization
+from vertex_cover_approximations import Algorithm
+from vertex_cover_approximations.visualization import visualization
 from . import logger
 
 
 def exact(dataset_path, visualize=False, plot_path=None):
-    """Compute exact solution for the graph covering problem by iterating over vertex subsets.
+    """Compute exact solution for the vertex cover problem by iterating over vertex subsets.
 
     :param dataset_path: path to the file containing the graph description (in the form of an edge list)
     :param visualize: visualize the solution or not
     :param plot_path: path to directory in which to save the visualization plots
-    :return: set of vertices constituting the solution for the graph covering problem and the running time (in seconds)
+    :return: set of vertices constituting the solution for the vertex cover problem and the running time (in seconds)
     """
 
     start_time = timeit.default_timer()
@@ -29,7 +29,7 @@ def exact(dataset_path, visualize=False, plot_path=None):
         n_nodes = int(f.readline().strip())
         n_edges = int(f.readline().strip())
 
-        logger.info('Using exact algorithm for the graph covering problem for a graph specified in \'{0}\' with {1} nodes and {2} edges.'.format(dataset_path, n_nodes, n_edges))
+        logger.info('Using exact algorithm for the vertex cover problem for a graph specified in \'{0}\' with {1} nodes and {2} edges.'.format(dataset_path, n_nodes, n_edges))
 
         # construct edge list, get unique nodes and construct NetworkX Graph for visualization
         for edge_raw in f:
@@ -38,7 +38,7 @@ def exact(dataset_path, visualize=False, plot_path=None):
             edge_list.append(edge_nxt)
             nodes.update(edge_nxt)
 
-    # go over covering sizes
+    # go over cover sizes
     for cov_size in range(1, n_nodes + 1):
 
         # generate subsets of nodes of specified size
@@ -46,20 +46,20 @@ def exact(dataset_path, visualize=False, plot_path=None):
         for nodes_nxt in node_combs_nxt:
             node_set_nxt = set(nodes_nxt)
 
-            # check if nodes form a graph covering
-            if check_covering(node_set_nxt, edge_list):
+            # check if nodes form a vertex cover
+            if check_cover(node_set_nxt, edge_list):
                 running_time = timeit.default_timer() - start_time
                 if visualize:
-                    visualization.visualize_covering(node_set_nxt, nx_graph, plot_path, Algorithm.EXACT.value[0], dataset_path)
+                    visualization.visualize_cover(node_set_nxt, nx_graph, plot_path, Algorithm.EXACT.value[0], dataset_path)
                 return node_set_nxt, running_time
 
 
-def check_covering(node_set, edge_list: list):
-    """Check if set of nodes constitutes a graph covering.
+def check_cover(node_set, edge_list: list):
+    """Check if set of nodes constitutes a vertex cover.
 
     :param node_set: set of nodes to check
     :param edge_list: edge list describing the graph
-    :return: does the set of nodes constitute a graph covering or not
+    :return: does the set of nodes constitute vertex cover or not
     """
 
     for edge in edge_list:
