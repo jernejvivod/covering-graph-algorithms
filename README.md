@@ -2,6 +2,51 @@
 
 This project contains four implementations of algorithms for computing vertex coverings — the exact algorithm that generates node subsets of incrementing sizes and three different approximation algorithms.
 
+## How to Run
+
+run `pip -r requirements.txt` to install the requirements.
+
+Running `python3 vertex-covering-approximations --help` prints the instructions on how to customize the execution parameters:
+```
+usage: sat-reductions [-h] {all,specific} ...
+
+positional arguments:
+  {all,specific}  run all or specific
+    all           run all algorithms
+    specific      run specific algorithm
+
+optional arguments:
+  -h, --help      show this help message and exit
+```
+
+We can run `python3 vertex-covering-approximations all --help` or `python3 vertex-covering-approximations specific --help` to print the instructions for running the implementation for all
+algorithms or for a specific algorithm respectively:
+
+```
+usage: sat-reductions all [-h] --dataset DATASET [--visualize] [--plot-path PLOT_PATH] [--exclude-exact]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --dataset DATASET     path to the dataset/graph specification to use
+  --visualize           visualize the covering or not
+  --plot-path PLOT_PATH
+                        path to directory in which to save the visualization plots
+  --exclude-exact       use only approximation algorithms (exclude the exact algorithm)
+```
+
+```
+usage: sat-reductions specific [-h] --dataset DATASET [--visualize] [--plot-path PLOT_PATH] [--algorithm {exact,naive_approx,greedy_logn_approx,greedy_2_approx}]
+
+optional arguments:
+  -h, --help            show this help message and exit
+  --dataset DATASET     path to the dataset/graph specification to use
+  --visualize           visualize the covering or not
+  --plot-path PLOT_PATH
+                        path to directory in which to save the visualization plots
+  --algorithm {exact,naive_approx,greedy_logn_approx,greedy_2_approx}
+                        algorithm to use
+```
+
 ## The Exact Algorithm
 
 The exact algorithm implementation generates all node subsets of incrementing sizes and simply picks the first one that is a valid graph covering. The following is a pseudocode description of this algorithm.
