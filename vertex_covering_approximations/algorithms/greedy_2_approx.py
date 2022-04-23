@@ -1,3 +1,5 @@
+import timeit
+
 import matplotlib.pyplot as plt
 import networkx as nx
 
@@ -12,8 +14,10 @@ def greedy_2_approx(dataset_path, visualize=False, plot_path=None):
     :param dataset_path: path to the file containing the graph description (in the form of an edge list)
     :param visualize: visualize the solution or not
     :param plot_path: path to directory in which to save the visualization plots
-    :return: set of vertices constituting the solution for the graph covering problem
+    :return: set of vertices constituting the approximate solution for the graph covering problem and the running time (in seconds)
     """
+
+    start_time = timeit.default_timer()
 
     # set of covering nodes
     node_set = set()
@@ -33,10 +37,12 @@ def greedy_2_approx(dataset_path, visualize=False, plot_path=None):
             if edge_nxt[0] not in node_set and edge_nxt[1] not in node_set:
                 node_set.update(edge_nxt)
 
+    running_time = timeit.default_timer() - start_time
+
     if visualize:
         visualization.visualize_covering(node_set, nx_graph, plot_path, Algorithm.NAIVE_APPROX.value[0], dataset_path)
 
-    return node_set
+    return node_set, running_time
 
 
 def visualize_covering(covering_set, nx_graph):

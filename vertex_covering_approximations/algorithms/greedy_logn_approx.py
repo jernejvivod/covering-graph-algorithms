@@ -1,3 +1,5 @@
+import timeit
+
 import networkx as nx
 
 from vertex_covering_approximations import Algorithm
@@ -11,8 +13,10 @@ def greedy_logn_approx(dataset_path, visualize=False, plot_path=None):
     :param dataset_path: path to the file containing the graph description (in the form of an edge list)
     :param visualize: visualize the solution or not
     :param plot_path: path to directory in which to save the visualization plots
-    :return: set of vertices constituting the solution for the graph covering problem
+    :return: set of vertices constituting the approximate solution for the graph covering problem and the running time (in seconds)
     """
+
+    start_time = timeit.default_timer()
 
     # adjacency dictionary, edge list, set of covered edges, set of covering nodes
     adj_dict = dict()
@@ -27,7 +31,6 @@ def greedy_logn_approx(dataset_path, visualize=False, plot_path=None):
         n_edges = int(f.readline().strip())
 
         logger.info('Using greedy (logn) approximation algorithm for the graph covering problem for a graph specified in \'{0}\' with {1} nodes and {2} edges.'.format(dataset_path, n_nodes, n_edges))
-
 
         # construct edge list and adjacency dictionary
         for edge_raw in f:
@@ -48,10 +51,12 @@ def greedy_logn_approx(dataset_path, visualize=False, plot_path=None):
             adj_dict.pop(node_max_uncovered)
             node_set.add(node_max_uncovered)
 
+        running_time = timeit.default_timer() - start_time
+
         if visualize:
             visualization.visualize_covering(node_set, nx_graph, plot_path, Algorithm.GREEDY_LOGN_APPROX.value[0], dataset_path)
 
-        return node_set
+        return node_set, running_time
 
 
 def get_node_max_uncovered(adj_dict: dict, covered: set):
